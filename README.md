@@ -2,6 +2,8 @@
 
 Koerber Pharma Frontend challenge.
 
+The current repository contains a coding challenge request by Koerbe Pharma and developed by Rafael Neves in three days.
+
 ## Node version
 
 > 18.14.0
@@ -43,7 +45,7 @@ npm run dev
 npm run build
 ```
 
-### Run test
+### Run tests
 
 ```sh
 npm run test:unit
