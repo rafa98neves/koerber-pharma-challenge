@@ -29,6 +29,8 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
+A simple install and run should be enought to start out the development server.
+
 ```sh
 npm install
 ```
