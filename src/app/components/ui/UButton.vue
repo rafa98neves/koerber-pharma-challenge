@@ -1,10 +1,27 @@
 @@ -1,40 +0,0 @@
 <script setup lang="ts">
+/**
+ * General Button
+ */
+
 import IconLoading from '@/app/components/icons/IconLoading.vue';
 
 const props = withDefaults(defineProps<{
+  /**
+   * Whether to blur on button click
+   *
+   * Defaults to true
+   */
   blurOnClick?: boolean | string;
+
+  /**
+   * Button label if set
+   */
   label?: string;
+
+  /**
+   * Whether to present the button in a loading state
+   */
   loading?: boolean | string;
 }>(),
 {

@@ -1,7 +1,13 @@
 import config from '@/config';
-import type { UserData } from '../models/user';
+import type { Credentials, UserData } from '../models/user';
 import type { HttpService } from './http';
 
+/**
+ * Authentication service
+ *
+ * Methods:
+ *  - login(payload: Credentials) - login request to API. If success retrieves the UserData
+ */
 export class AuthService {
     private http;
 
@@ -9,8 +15,7 @@ export class AuthService {
         this.http = http;
       }
 
-    public login(payload: { username: string, password: string}) {
+    public login(payload: Credentials) {
         return this.http.post<UserData>(`${config.baseUrl}auth/login`, payload);
     }
 }
-  

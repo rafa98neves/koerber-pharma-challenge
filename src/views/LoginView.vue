@@ -7,11 +7,20 @@ import LoginForm from '../app/components/login/LoginForm.vue'
         <Transition name="slide" appear>
             <div class="left-panel">
                 <img class="korber-logo" src="../assets/korber-logo.svg" />
-                <p> Have you done your todos today?</p>
+                <div>
+                    <p> The Pomodoro Technique is a time management system that encourages people to work with the time they have. </p>
+                    <p class="mt-3"> Try it now.  </p>
+                </div>
             </div>
         </Transition>
 
-        <LoginForm class="right-panel" />
+        <LoginForm class="right-panel">
+            <Transition name="slide" appear>
+                <div class="left-panel small">
+                    <img class="korber-logo" src="../assets/korber-logo.svg" />
+                </div>
+            </Transition>
+        </LoginForm>
     </div>
 </template>
 
@@ -33,15 +42,42 @@ import LoginForm from '../app/components/login/LoginForm.vue'
         align-items: center;
         margin: auto 7vw;
         .korber-logo{
-            width: 25vw;
+            min-width: 25vw;
             height: auto;
             margin-right: 2rem;
         }
     }
 
     .right-panel{
+
+        .small{
+            display: none;
+        }
+
         height: 100vh;
         box-shadow: #6a8985 0px 0px 7px 8px !important;
+        padding-left: 10%;
+
+        border-top-left-radius: 40%;
+        border-bottom-left-radius: 40%;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        @media (max-width: 992px) {
+            padding-left: 0;
+            border-radius: 0;
+
+            .small{
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+                .korber-logo{
+                    margin-right: 0;
+                }
+            }
+        }
+
     }
 }
 </style>

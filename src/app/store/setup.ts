@@ -4,6 +4,9 @@ import { useAuthStore } from './authStore';
 import { commonStoreActions } from './commonStoreActions';
 import { useTaskStore } from './tasksStore';
 
+/**
+ * Run common store accross all stores on demand
+ */
 export const runActions = async (action: commonStoreActions) => {
     const actions = [] as Promise<any>[];
 
@@ -13,7 +16,7 @@ export const runActions = async (action: commonStoreActions) => {
             actions.push(Promise.resolve((piniaStores[i] as any)[action]()));
         }
     }
-    
+
     await Promise.all(actions);
 }
 

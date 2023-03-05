@@ -1,9 +1,18 @@
 <script setup lang="ts">
+/**
+ * Single TODO manager
+ *
+ * Displays a clickable todo that will count `DEFAULT_TIMER` seconds
+ * until task is marked as done.
+ *
+ * Task can be paused if user wants, but can't run `MAX_TODOS_IN_PROGRESS` todos
+ * simultaneously.
+ */
 import { MILLI } from '@/app/helpers/time';
 import { DEFAULT_TIMER, MAX_TODOS_IN_PROGRESS } from '@/app/helpers/taskDefaults';
 import type { Task } from '@/app/models/task';
 import { useTaskStore } from '@/app/store/tasksStore';
-import { reactive, computed } from 'vue';
+import { reactive, computed, onBeforeUnmount } from 'vue';
 import CheckIcon from '@/app/components/icons/CheckIcon.vue';
 
 const props = defineProps<{
@@ -13,33 +22,71 @@ const props = defineProps<{
 const taskStore = useTaskStore();
 
 const state = reactive({
+  /**
+   * Whether task is in an active state,
+   * meaning that the timmer is running.
+   */
   active: false,
+
+  /**
+   * Countdown in millisenconds until task is marked as
+   * completed.
+   */
   progress: props.task.timer ?? DEFAULT_TIMER,
+
+  /**
+   * Interval running while task is active
+   */
   timeInterval: null as number | null,
 })
 
+/**
+ * Computed timer variable got from the task
+ */
 const timer = computed(() => props.task.timer!)
 
-const progressPercentage = computed(() => (props.task.timer! * 100) / DEFAULT_TIMER)
+/**
+ * Computed percentage of the time spent on the current task
+ */
+const progressPercentage = computed(() => (timer.value * 100) / DEFAULT_TIMER)
 
+/**
+ * Whether task is completed
+ */
 const isComplete = computed(() => progressPercentage.value >= 100 || props.task.completed)
 
+/**
+ * Whether task is in progress
+ */
 const inProgress = computed(() => taskStore.todos.filter(task => task.started && !task.completed).length)
 
+/**
+ * Whether task can be started
+ */
 const shouldBeDisabled = computed(() => !props.task.started && inProgress.value >= MAX_TODOS_IN_PROGRESS && !state.active)
 
+/**
+ * set todo as active and save it in store
+ */
 function startTimer(){
   state.active = true;
   taskStore.setTask(props.task.id, { ...props.task, started: true })
+
+  const startAmount = timer.value;
+  const startTime = Date.now();
+
+  // Every millisecond update timer and progress bar
   state.timeInterval = setInterval(() => {
-    taskStore.setTask(props.task.id, { ...props.task, timer: timer.value + 1 })
+    taskStore.setTask(props.task.id, { ...props.task, timer: startAmount + (Date.now() - startTime) })
     if(timer.value >= DEFAULT_TIMER) {
-      taskStore.setTask(props.task.id, { ...props.task, completed: true })
       stopTimer();
     }
   }, MILLI)
 }
 
+/**
+ * set todo as inactive and save it in store
+ */
 function stopTimer(){
   state.active = false;
   clearInterval(state.timeInterval!);
@@ -49,6 +96,7 @@ function stopTimer(){
 
 function onClick(){
   if(!state.active && (inProgress.value < MAX_TODOS_IN_PROGRESS || props.task.started)){
+    // if action is not active and we haven't reached the maximum simultaneous todos, start timer
     startTimer();
   } else if(state.active){
     stopTimer();
@@ -56,15 +104,20 @@ function onClick(){
 }
 
 function saveTask(){
-  taskStore.setTask(props.task.id, { ...props.task, started: true })
+  taskStore.setTask(props.task.id, { ...props.task, started: true, completed: isComplete.value })
 }
+
+onBeforeUnmount(() => {
+  clearInterval(state.timeInterval!);
+  state.timeInterval = null;
+})
 
 </script>
 
 <template>
   <div class="todo-wrapper">
     <span class="progress" :style="`width: ${progressPercentage}%;`" v-if="!isComplete" />
-    <div :class="{ active: state.active, complete: isComplete, disabled: shouldBeDisabled }" class="todo-card card-block" @click="onClick">
+    <div :class="{ active: task.started, complete: isComplete, disabled: shouldBeDisabled }" class="todo-card card-block" @click="onClick">
       <div class="description"> {{ task.todo }} </div>
       <CheckIcon class="icon" v-if="isComplete"/>
     </div>
@@ -88,7 +141,8 @@ function saveTask(){
   }
 
   .todo-card {
-    background-color: #00000024;
+    background-color: #2c3e504e;
+    box-shadow: none;
     width: 100%;
     height: calc(100% - .2rem);
     margin: 0.1rem;

@@ -1,7 +1,25 @@
 <script setup lang="ts">
+/**
+ * Counter Wizard
+ *
+ * Will display a counter of x / y items where x is the
+ * current item count and y is the item total
+ */
+
 defineProps<{
+  /**
+   * Number of in-progress items
+   */
   inProgress: number,
+
+  /**
+   * Number of total items
+   */
   max: number,
+
+  /**
+   * Inline label, if any
+   */
   label?: string,
 }>()
 </script>
