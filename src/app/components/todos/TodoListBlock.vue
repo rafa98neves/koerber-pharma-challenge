@@ -18,7 +18,6 @@ import IconLoading from '../icons/IconLoading.vue';
 const taskStore = useTaskStore();
 const authStore = useAuthStore();
 
-
 const state = computed(() => ({
   /**
    * Whether component is waiting on request to finish
@@ -43,58 +42,55 @@ loadTodos({});
  * Count of todos in progress
  */
 const inProgress = computed(() => {
-  return taskStore.todos.filter(task => task.started && !task.completed).length;
-})
+  return taskStore.todos.filter((task) => task.started && !task.completed).length;
+});
 
 /**
  * Load TODOs on demand
  */
-async function loadTodos(query: any){
-  if(!state.value.isWaiting){
+async function loadTodos(query: any) {
+  if (!state.value.isWaiting) {
     state.value.isWaiting = true;
     query.userId = authStore.loggedInUser!.id;
     await taskStore.loadTodos(query);
     state.value.isWaiting = false;
   }
 }
-
 </script>
 
 <template>
-      <InfiniteScroll @fetch="loadTodos($event)" :total="state.total">
-        <template #header>
-          <div class="centered">
-            <div class="col">
-              <h1 class="mb-3"> Todos List </h1>
-            </div>
-            <div class="col counter">
-              <CompleteCounter label="On going todos:" :max="MAX_TODOS_IN_PROGRESS" :in-progress="inProgress" />
-            </div>
-          </div>
-        </template>
-
-        <div class="todo-content">
-          <div class="row pt-3 mx-0" v-if="state.tasks.length > 0">
-            <div class="col col-xl-6 col-md-12 mb-3" v-for="todo in state.tasks" :key="todo.id">
-              <TaskTodo :task="todo" />
-            </div>
-          </div>
-          <div class="" v-else-if="state.isWaiting">
-            Loading Todos
-            <IconLoading class="icon" />
-          </div>
-          <div v-else>
-            No Todos Found.
-          </div>
+  <InfiniteScroll @fetch="loadTodos($event)" :total="state.total">
+    <template #header>
+      <div class="centered">
+        <div class="col">
+          <h1 class="mb-3">Todos List</h1>
         </div>
-      </InfiniteScroll>
+        <div class="col counter">
+          <CompleteCounter label="On going todos:" :max="MAX_TODOS_IN_PROGRESS" :in-progress="inProgress" />
+        </div>
+      </div>
+    </template>
+
+    <div class="todo-content">
+      <div class="row pt-3 mx-0" v-if="state.tasks.length > 0">
+        <div class="col col-xl-6 col-md-12 mb-3" v-for="todo in state.tasks" :key="todo.id">
+          <TaskTodo :task="todo" />
+        </div>
+      </div>
+      <div class="" v-else-if="state.isWaiting">
+        Loading Todos
+        <IconLoading class="icon" />
+      </div>
+      <div v-else>No Todos Found.</div>
+    </div>
+  </InfiniteScroll>
 </template>
 
 <style lang="scss" scoped>
-.todo-content{
+.todo-content {
   width: 100%;
   text-align: center;
-  .icon{
+  .icon {
     margin-bottom: 2px;
     margin-left: 1rem;
   }
@@ -102,7 +98,7 @@ async function loadTodos(query: any){
 
 .row {
   align-items: center;
-  .counter{
+  .counter {
     margin-right: 2rem;
   }
 }

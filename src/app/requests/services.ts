@@ -4,8 +4,8 @@ import { HttpService } from './http';
 import { TasksService } from './tasksService';
 
 export interface Services {
-  auth: AuthService,
-  tasks: TasksService,
+  auth: AuthService;
+  tasks: TasksService;
 }
 
 /**
@@ -14,9 +14,9 @@ export interface Services {
  * Generates all services and retrieves list
  */
 export function getServices(): Services {
-    const http = new HttpService(config.baseUrl);
-    return {
-      auth: new AuthService(http),
-      tasks: new TasksService(http),
-    };
+  const http = new HttpService(config.baseUrl);
+  return {
+    auth: new AuthService(http),
+    tasks: new TasksService(http),
+  };
 }

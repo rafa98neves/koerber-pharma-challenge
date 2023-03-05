@@ -10,31 +10,29 @@ defineProps<{
   /**
    * Number of in-progress items
    */
-  inProgress: number,
+  inProgress: number;
 
   /**
    * Number of total items
    */
-  max: number,
+  max: number;
 
   /**
    * Inline label, if any
    */
-  label?: string,
-}>()
+  label?: string;
+}>();
 </script>
 
 <template>
   <div class="counter-wrapper">
-    <div> {{ label }} </div>
-    <div class="counter">
-      {{ inProgress }} / {{ max }}
-    </div>
+    <div>{{ label }}</div>
+    <div class="counter">{{ inProgress }} / {{ max }}</div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.counter-wrapper{
+.counter-wrapper {
   display: flex;
   align-items: center;
   justify-content: end;

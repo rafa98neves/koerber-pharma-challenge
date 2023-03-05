@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import NavBar from '../app/components/layout/NavBar.vue'
+import NavBar from '../app/components/layout/NavBar.vue';
 </script>
 
 <template>
-<div class="main">
+  <div class="main">
     <NavBar />
     <RouterView class="content" />
-</div>
+  </div>
 </template>
 <style lang="scss" scoped>
-.content{
-    height: calc(100vh - 5rem);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.content {
+  height: calc(100vh - 5rem);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 </style>

@@ -9,55 +9,58 @@
 
 import type { PaginatedRequest } from '@/app/models/pagination';
 
-const props = withDefaults(defineProps<{
-  /**
-   * Total number of elements
-   *
-   * Defaults to 0.
-   */
-  total: number;
+const props = withDefaults(
+  defineProps<{
+    /**
+     * Total number of elements
+     *
+     * Defaults to 0.
+     */
+    total: number;
 
-  /**
-   * Max elements per page
-   *
-   * Defaults to 30.
-   */
-  limit?: number;
+    /**
+     * Max elements per page
+     *
+     * Defaults to 30.
+     */
+    limit?: number;
 
-  /**
-   * Elements to be skipped on next fetch
-   *
-   * Defaults to 0.
-   */
-  skip?: number;
+    /**
+     * Elements to be skipped on next fetch
+     *
+     * Defaults to 0.
+     */
+    skip?: number;
 
-  /**
-   * Elements to be incremented on next fetch
-   *
-   * Defaults to 20.
-   */
-  increment?: number;
+    /**
+     * Elements to be incremented on next fetch
+     *
+     * Defaults to 20.
+     */
+    increment?: number;
 
-  /**
-   * Percentual distance from bottom where fetch will be triggered
-   *
-   * Defaults to 0.2 (20 %).
-   */
-  breakpointPercentage?: number;
-}>(), {
-  total: 0,
-  limit: 30,
-  skip: 0,
-  increment: 20,
-  breakpointPercentage: 0.2,
-});
+    /**
+     * Percentual distance from bottom where fetch will be triggered
+     *
+     * Defaults to 0.2 (20 %).
+     */
+    breakpointPercentage?: number;
+  }>(),
+  {
+    total: 0,
+    limit: 30,
+    skip: 0,
+    increment: 20,
+    breakpointPercentage: 0.2,
+  }
+);
 
 const page: PaginatedRequest = {
-    limit: props.limit,
-    skip: props.skip,
-}
+  limit: props.limit,
+  skip: props.skip,
+};
 
-const emit = defineEmits(['fetch'])
+const emit = defineEmits(['fetch']);
 
 /**
  * On scroll check if there's more elements to be loaded
@@ -65,17 +68,15 @@ const emit = defineEmits(['fetch'])
  *
  * If so emit fetch event.
  */
-function onScroll(e: Event){
-  if(props.total >= page.limit){
-  const { scrollTop, offsetHeight, scrollHeight } = e.target as any;
-    if(scrollTop + offsetHeight >= scrollHeight - (scrollHeight * props.breakpointPercentage)) {
+function onScroll(e: Event) {
+  if (props.total >= page.limit) {
+    const { scrollTop, offsetHeight, scrollHeight } = e.target as any;
+    if (scrollTop + offsetHeight >= scrollHeight - scrollHeight * props.breakpointPercentage) {
       page.limit += props.increment;
-      emit('fetch', page)
+      emit('fetch', page);
     }
   }
 }
-
-
 </script>
 
 <template>
@@ -88,7 +89,7 @@ function onScroll(e: Event){
 </template>
 
 <style lang="scss" scoped>
-.infinite-scroll-wrapper{
+.infinite-scroll-wrapper {
   overflow-y: auto;
   max-height: 100%;
 }

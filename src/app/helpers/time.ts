@@ -1,4 +1,3 @@
-
 /**
  * One millisecond value
  */
