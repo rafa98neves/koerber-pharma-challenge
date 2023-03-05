@@ -1,0 +1,10 @@
+@import './input.scss';
+
+.form-field {
+    margin-bottom: 2rem;
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+}

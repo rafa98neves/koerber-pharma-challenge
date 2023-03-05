@@ -1,0 +1,30 @@
+.btn {
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    min-height: 2rem;
+    padding: 0 1rem;
+    border: 1px solid var(--vt-c-white-mute);
+    border-radius: 4px;
+    background-color: var(--vt-c-white-mute);
+
+    &-secondary{
+        background-color: var(--vt-c-white-mute);
+    }
+
+    &-danger{
+        background-color: var(--vt-c-white-mute);
+    }
+
+    &-muted{
+        background-color: transparent;
+    }
+
+    &-disabled{
+        background-color: transparent;
+    }
+
+    .loading-wrapper{
+        padding-bottom: 4px;
+    }
+}
