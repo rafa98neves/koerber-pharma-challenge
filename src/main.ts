@@ -1,9 +1,9 @@
+import './assets/main.scss'
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
-
-import './assets/main.scss'
 
 import { getServices } from './app/requests/services'
 import { setupStore } from './app/store/setup'

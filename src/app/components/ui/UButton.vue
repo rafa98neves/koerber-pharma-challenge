@@ -7,8 +7,10 @@ const props = withDefaults(defineProps<{
   label?: string;
   loading?: boolean | string;
 }>(),
-{ 
+{
+  label: undefined,
   blurOnClick: true,
+  loading: undefined,
 });
 
 function onClick($event: MouseEvent) {
@@ -22,7 +24,7 @@ function onClick($event: MouseEvent) {
   <button class="btn" @click="onClick" v-bind="$attrs">
     <div v-if="!loading">
       <slot>
-        {{ label }}
+            {{ label }}
       </slot>
     </div>
     <div class="loading-wrapper" v-else>

@@ -1,54 +1,13 @@
-@import './base.scss';
+@import './variables.scss';
 
+@import './base.scss';
 @import 'animations/transitions.scss';
+@import 'animations/keyframes.scss';
 @import 'ui/index.scss';
 
 @import 'node_modules/bootstrap/scss/bootstrap-grid.scss';
 
 #app {
   font-weight: normal;
-  width: 100%;
-
-  main > div{
-    margin: 0 auto;
-  }
-}
-
-body {
-  display: flex;
-  place-items: center;
-  overflow: hidden;
-
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px white;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: var(--vt-c-indigo);
-  }
-}
-
-.centered {
-  max-width: 1280px;
-  width: 1280px;
-  
-  margin: 0 auto;
-  padding: 2rem;
-
-  @media (max-width: 1400px) {
-    width: 80vw;
-  }
-}
-
-a{
-  cursor: pointer;
-  &:hover{
-    text-decoration: underline;
-  }
+  width: 100%
 }

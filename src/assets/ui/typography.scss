@@ -1,0 +1,29 @@
+
+h1{
+    font-size: $h1-font-size;
+}
+
+h2{
+  font-size: $h2-font-size;
+}
+h3{
+    font-size: $h3-font-size;
+}
+
+h4{
+  font-size: $h4-font-size;
+}
+
+a{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+  
+.error{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: var(--color-danger);
+}

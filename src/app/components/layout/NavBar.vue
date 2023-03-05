@@ -15,12 +15,12 @@ function logout(){
   <div class="navbar" v-if="user">
     <div class="user-info">
       <img class="image" :src="user.image" />
-      <p> {{ user.firstName }} {{ user.lastName }} </p>
+        <p> {{ user.firstName }} {{ user.lastName }} </p>
     </div>
     <div class="logout-wrapper" >
       <a @click="logout"> Logout </a>
     </div>
-    
+
   </div>
 </template>
 
@@ -31,10 +31,11 @@ function logout(){
   left: 0;
   right: 0;
   z-index: 1;
-  
+
   display: grid;
   grid-template-columns: 1fr min-content;
-  background-color: var(--vt-c-indigo);
+  background-color: #baded9;
+  color: #2c3e50;
   align-items: center;
   height: 5rem;
   padding-left: 2rem;
@@ -52,7 +53,7 @@ function logout(){
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    border: 1px solid var(--vt-c-white-mute);
+    border: 1px solid #f2f2f2;
   }
 
   .logout-wrapper{
