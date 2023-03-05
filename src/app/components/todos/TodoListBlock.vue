@@ -51,8 +51,7 @@ const inProgress = computed(() => {
 async function loadTodos(query: any) {
   if (!state.value.isWaiting) {
     state.value.isWaiting = true;
-    query.userId = authStore.loggedInUser!.id;
-    await taskStore.loadTodos(query);
+    await taskStore.loadTodosOfUser(authStore.loggedInUser!.id, query);
     state.value.isWaiting = false;
   }
 }

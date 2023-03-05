@@ -81,6 +81,7 @@ function startTimer() {
   state.timeInterval = setInterval(() => {
     taskStore.setTask(props.task.id, { ...props.task, timer: startAmount + (Date.now() - startTime) });
     if (timer.value >= DEFAULT_TIMER) {
+      taskStore.markAsComplete(props.task.id);
       stopTimer();
     }
   }, MILLI);
