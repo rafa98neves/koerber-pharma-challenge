@@ -1,3 +1,7 @@
+
+/**
+ * User session data
+ */
 export interface UserData{
     id: number,
     username: string,
@@ -9,6 +13,9 @@ export interface UserData{
     token: string;
 }
 
+/**
+ * User saved credentials
+ */
 export interface Credentials{
     username: string,
     password: string,

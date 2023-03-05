@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Login Form
+ *
+ * Displays a validated form composed with username and password.
+ */
+
 import FormInput  from '../ui/FormInput.vue'
 import UButton  from '../ui/UButton.vue'
 import { useVuelidate } from '@vuelidate/core';
@@ -9,14 +15,31 @@ import { useAuthStore } from '@/app/store/authStore';
 const authStore = useAuthStore();
 
 const state = reactive({
+  /**
+   * Whether component is waiting on request to finish
+   * Defaults to false
+   */
   isWaiting: false,
+
+  /**
+   * API Error, if any.
+   * Defaults to empty string
+   */
   apiError: '',
+
+  /**
+   * Login form model
+   * Defaults to the last saved user credentials, if any
+   */
   model: {
     username: authStore.credentials?.username ?? '',
     password: authStore.credentials?.password ?? '',
   }
 });
 
+/**
+ * Set of rules to be match agains `state.model`
+*/
 const rules = {
   username: { required },
   password: { required },
@@ -24,16 +47,20 @@ const rules = {
 
 const v$ = useVuelidate(rules, state.model);
 
-watch(state.model, () => {
-  state.apiError = '';
-})
+/**
+ * Watcher to clear error on user input
+*/
+watch(state.model, () => state.apiError = '')
 
 async function submit(){
+  // check form validations
   v$.value.$touch();
   if(!v$.value.$invalid){
+    // if valid try to login
     state.isWaiting = true;
     await useAuthStore().login(state.model).catch((e) => {
       if(e.response?.data?.message){
+        // on API error, display it's message to the user
         state.apiError = e.response?.data?.message
       }
     });
@@ -54,6 +81,7 @@ async function submit(){
       <div class="button-wrapper">
         <UButton :loading="state.isWaiting"> Login </UButton>
       </div>
+      <slot />
     </form>
 </template>
 

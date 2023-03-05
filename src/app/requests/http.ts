@@ -2,6 +2,14 @@ import axios, { AxiosHeaders } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { useAuthStore } from '../store/authStore';
 
+/**
+ * Simple HTTP Service
+ *
+ * Creates an axios instance and sets the headers.
+ *
+ * Provides a get, put, post and delete methods to be used
+ * externally
+ */
 export class HttpService {
   private axios: AxiosInstance;
 
@@ -30,11 +38,11 @@ export class HttpService {
     return this.axios.get<T>(url, options).then((res) => res.data);
   }
 
-  public post<T>(url: string, payload: any, options: Partial<AxiosRequestConfig<T>> = {}) {
+  public post<T>(url: string, payload: T, options: Partial<AxiosRequestConfig<T>> = {}) {
     return this.axios.post<T>(url, payload, options).then((res) => res.data);
   }
 
-  public put<T>(url: string, payload: any, options: Partial<AxiosRequestConfig<T>> = {}) {
+  public put<T>(url: string, payload: T, options: Partial<AxiosRequestConfig<T>> = {}) {
     return this.axios.put<T>(url, payload, options).then((res) => res.data);
   }
 

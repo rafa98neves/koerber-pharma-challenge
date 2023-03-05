@@ -7,17 +7,39 @@ import { commonStoreActions } from './commonStoreActions';
 
 let services!: Services;
 
+
+/**
+ * Todo Tasks Store
+ *
+ * Task management store
+ */
 export const useTaskStore = defineStore('taskStore', {
     state: () => ({
+        /**
+         * Current cached tasks if any
+         */
         currentTasks: cachedItem<TaskResponse | null>('currentTasks'),
     }),
     getters: {
+        /**
+         * Get all todos if any loaded
+         */
         todos: (state) => state.currentTasks?.todos ?? [],
+
+        /**
+         * Gets total of loaded todos
+         */
         total: (state) => state.currentTasks?.total ?? 0,
     },
     actions: {
+        /**
+         * Action to load TODOs.
+         *
+         * Gets todos in cache if any, otherwise if no todos are cached or forcing is set to true
+         * todos will be fetched from API
+         */
         async loadTodos(payload: { userId?: number } & Partial<PaginatedResponse>, force = false) {
-          if(!force && this.todos && this.todos.length > 0){
+          if(!force && this.todos && this.todos.length > 0 && this.todos.length >= (payload.limit ?? 0) ){
             return this.currentTasks!;
           }
           const res = await services.tasks.listTasks(payload);
@@ -25,21 +47,48 @@ export const useTaskStore = defineStore('taskStore', {
           this.currentTasks = res;
           return res;
         },
+
+        /**
+         * Get task by id
+         */
         getTask(id: number) {
           return this.todos?.find(task => task.id === id);
         },
+
+        /**
+         * Mutates task from array of todos
+         *
+         * Improvement - task timmer should actually be managed by the store itself and not by the
+         * component to improve performance
+         */
         setTask(id: number, update: Task){
           const index = this.currentTasks!.todos!.findIndex(task => task.id === id);
           if(index >= 0){
             this.currentTasks!.todos[index] = { ...update };
           }
         },
+
+        /**
+         * Clears all todos in cache
+         */
         clear() {
           this.currentTasks = null;
         },
+
+        /**
+         * Setup action
+         *
+         * Run on store initialization
+         */
         async [commonStoreActions.ON_SETUP](){
-          services = getServices(true);
+          services = getServices();
         },
+
+        /**
+         * Destroy action
+         *
+         * Clears current user tasks
+         */
         async [commonStoreActions.ON_DESTROY](){
           this.clear();
         }

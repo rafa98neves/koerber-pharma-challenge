@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * TODO list manager
+ *
+ * Displays a list of todos that fetchs more on scroll (if there's more)
+ * and displayes the current count of on going TODOs
+ */
+
 import { useTaskStore } from '@/app/store/tasksStore';
 import { useAuthStore } from '@/app/store/authStore';
 import TaskTodo from './TaskTodo.vue';
@@ -13,17 +20,35 @@ const authStore = useAuthStore();
 
 
 const state = computed(() => ({
+  /**
+   * Whether component is waiting on request to finish
+   * Defaults to false
+   */
   isWaiting: false,
+
+  /**
+   * Current cached todos
+   */
   tasks: taskStore.todos,
+
+  /**
+   * Current cached total todos
+   */
   total: taskStore.total || 0,
 }));
 
-const inProgress = computed(() => {
-  return state.value.tasks.filter(task => task.started).length;
-})
-
 loadTodos({});
 
+/**
+ * Count of todos in progress
+ */
+const inProgress = computed(() => {
+  return taskStore.todos.filter(task => task.started && !task.completed).length;
+})
+
+/**
+ * Load TODOs on demand
+ */
 async function loadTodos(query: any){
   if(!state.value.isWaiting){
     state.value.isWaiting = true;

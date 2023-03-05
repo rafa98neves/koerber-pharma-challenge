@@ -1,7 +1,3 @@
-/**
- * Services are generated and returned via a getter function
- * to avoid a complex DI system, until it is necessary
- */
 import config from '@/config';
 import { AuthService } from './authService';
 import { HttpService } from './http';
@@ -12,15 +8,15 @@ export interface Services {
   tasks: TasksService,
 }
 
-let services: Services | null = null;
-
-export function getServices(generate = false) {
-  if (generate) {
+/**
+ * Simple Service Manager
+ *
+ * Generates all services and retrieves list
+ */
+export function getServices(): Services {
     const http = new HttpService(config.baseUrl);
-    services = {
+    return {
       auth: new AuthService(http),
       tasks: new TasksService(http),
     };
-  }
-  return services!;
 }

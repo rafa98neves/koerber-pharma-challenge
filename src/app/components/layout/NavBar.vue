@@ -1,6 +1,13 @@
 <script setup lang="ts">
+/**
+ * Global user Navigation Bar
+ *
+ * Displayed fixed on top when if logged in user
+ */
+
 import { computed } from 'vue';
 import { useAuthStore } from '@/app/store/authStore';
+
 
 const authStore = useAuthStore();
 
@@ -34,8 +41,8 @@ function logout(){
 
   display: grid;
   grid-template-columns: 1fr min-content;
-  background-color: #baded9;
-  color: #2c3e50;
+  background-color: var(--cambr-soft);
+  color: var(--indigo);
   align-items: center;
   height: 5rem;
   padding-left: 2rem;
@@ -53,7 +60,7 @@ function logout(){
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    border: 1px solid #f2f2f2;
+    border: 1px solid var(--white-mute);
   }
 
   .logout-wrapper{
