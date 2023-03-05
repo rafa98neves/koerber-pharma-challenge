@@ -16,18 +16,18 @@ export class HttpService {
   private authStore = useAuthStore();
 
   constructor(baseUrl: string) {
-    this.axios = axios.create( {
+    this.axios = axios.create({
       baseURL: baseUrl,
       headers: this.getHeaders(),
-    })
+    });
   }
 
-  protected getHeaders(){
+  protected getHeaders() {
     const token = this.authStore.userData?.token;
     const headers: Partial<AxiosHeaders> = {
       'Content-Type': 'application/json',
-    }
-    if(token){
+    };
+    if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
     return headers;

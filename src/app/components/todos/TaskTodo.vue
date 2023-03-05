@@ -16,8 +16,8 @@ import { reactive, computed, onBeforeUnmount } from 'vue';
 import CheckIcon from '@/app/components/icons/CheckIcon.vue';
 
 const props = defineProps<{
-  task: Task,
-}>()
+  task: Task;
+}>();
 
 const taskStore = useTaskStore();
 
@@ -38,98 +38,103 @@ const state = reactive({
    * Interval running while task is active
    */
   timeInterval: null as number | null,
-})
+});
 
 /**
  * Computed timer variable got from the task
  */
-const timer = computed(() => props.task.timer!)
+const timer = computed(() => props.task.timer!);
 
 /**
  * Computed percentage of the time spent on the current task
  */
-const progressPercentage = computed(() => (timer.value * 100) / DEFAULT_TIMER)
+const progressPercentage = computed(() => (timer.value * 100) / DEFAULT_TIMER);
 
 /**
  * Whether task is completed
  */
-const isComplete = computed(() => progressPercentage.value >= 100 || props.task.completed)
+const isComplete = computed(() => progressPercentage.value >= 100 || props.task.completed);
 
 /**
  * Whether task is in progress
  */
-const inProgress = computed(() => taskStore.todos.filter(task => task.started && !task.completed).length)
+const inProgress = computed(() => taskStore.todos.filter((task) => task.started && !task.completed).length);
 
 /**
  * Whether task can be started
  */
-const shouldBeDisabled = computed(() => !props.task.started && inProgress.value >= MAX_TODOS_IN_PROGRESS && !state.active)
+const shouldBeDisabled = computed(
+  () => !props.task.started && inProgress.value >= MAX_TODOS_IN_PROGRESS && !state.active
+);
 
 /**
  * set todo as active and save it in store
  */
-function startTimer(){
+function startTimer() {
   state.active = true;
-  taskStore.setTask(props.task.id, { ...props.task, started: true })
+  taskStore.setTask(props.task.id, { ...props.task, started: true });
 
   const startAmount = timer.value;
   const startTime = Date.now();
 
   // Every millisecond update timer and progress bar
   state.timeInterval = setInterval(() => {
-    taskStore.setTask(props.task.id, { ...props.task, timer: startAmount + (Date.now() - startTime) })
-    if(timer.value >= DEFAULT_TIMER) {
+    taskStore.setTask(props.task.id, { ...props.task, timer: startAmount + (Date.now() - startTime) });
+    if (timer.value >= DEFAULT_TIMER) {
       stopTimer();
     }
-  }, MILLI)
+  }, MILLI);
 }
 
 /**
  * set todo as inactive and save it in store
  */
-function stopTimer(){
+function stopTimer() {
   state.active = false;
   clearInterval(state.timeInterval!);
   state.timeInterval = null;
   saveTask();
 }
 
-function onClick(){
-  if(!state.active && (inProgress.value < MAX_TODOS_IN_PROGRESS || props.task.started)){
+function onClick() {
+  if (!state.active && (inProgress.value < MAX_TODOS_IN_PROGRESS || props.task.started)) {
     // if action is not active and we haven't reached the maximum simultaneous todos, start timer
     startTimer();
-  } else if(state.active){
+  } else if (state.active) {
     stopTimer();
   }
 }
 
-function saveTask(){
-  taskStore.setTask(props.task.id, { ...props.task, started: true, completed: isComplete.value })
+function saveTask() {
+  taskStore.setTask(props.task.id, { ...props.task, started: true, completed: isComplete.value });
 }
 
 onBeforeUnmount(() => {
   clearInterval(state.timeInterval!);
   state.timeInterval = null;
-})
-
+});
 </script>
 
 <template>
   <div class="todo-wrapper">
     <span class="progress" :style="`width: ${progressPercentage}%;`" v-if="!isComplete" />
-    <div :class="{ active: task.started, complete: isComplete, disabled: shouldBeDisabled }" class="todo-card card-block" @click="onClick">
-      <div class="description"> {{ task.todo }} </div>
-      <CheckIcon class="icon" v-if="isComplete"/>
+    <div
+      :class="{ active: task.started, complete: isComplete, disabled: shouldBeDisabled }"
+      class="todo-card card-block"
+      @click="onClick"
+    >
+      <div class="description">{{ task.todo }}</div>
+      <CheckIcon class="icon" v-if="isComplete" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.todo-wrapper{
+.todo-wrapper {
   display: flex;
   height: 6.2rem;
 
-  .progress{
+  .progress {
     width: 0;
     height: 100%;
     position: absolute;
@@ -144,7 +149,7 @@ onBeforeUnmount(() => {
     background-color: #2c3e504e;
     box-shadow: none;
     width: 100%;
-    height: calc(100% - .2rem);
+    height: calc(100% - 0.2rem);
     margin: 0.1rem;
     display: flex;
     align-items: center;
@@ -152,25 +157,24 @@ onBeforeUnmount(() => {
     color: var(--color-text);
     cursor: pointer;
 
-    .description{
+    .description {
       width: 90%;
     }
 
-    &.disabled{
+    &.disabled {
       cursor: not-allowed;
     }
 
-    &.active{
+    &.active {
       cursor: pointer;
       outline: 3px solid green;
       border-color: transparent;
     }
 
-    &.complete{
+    &.complete {
       background-color: green;
       outline: none;
     }
   }
-
 }
 </style>

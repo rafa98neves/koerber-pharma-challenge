@@ -1,5 +1,4 @@
 export default {
-    routerMode: 'history',
-    baseUrl: `https://dummyjson.com/`,
-  };
-  
+  routerMode: 'history',
+  baseUrl: `https://dummyjson.com/`,
+};

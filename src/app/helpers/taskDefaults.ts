@@ -1,4 +1,4 @@
-import { SECOND } from "./time";
+import { SECOND } from './time';
 
 /**
  * Default time in seconds required to complete a TODO

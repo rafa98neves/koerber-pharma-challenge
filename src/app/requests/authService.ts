@@ -9,13 +9,13 @@ import type { HttpService } from './http';
  *  - login(payload: Credentials) - login request to API. If success retrieves the UserData
  */
 export class AuthService {
-    private http;
+  private http;
 
-    constructor(http: HttpService) {
-        this.http = http;
-      }
+  constructor(http: HttpService) {
+    this.http = http;
+  }
 
-    public login(payload: Credentials) {
-        return this.http.post<UserData>(`${config.baseUrl}auth/login`, payload);
-    }
+  public login(payload: Credentials) {
+    return this.http.post<UserData>(`${config.baseUrl}auth/login`, payload);
+  }
 }

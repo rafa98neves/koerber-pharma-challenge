@@ -10,13 +10,13 @@ import type { HttpService } from './http';
  *  - listTasks (payload: { userId?: string } & Partial<PaginatedRequest>) - fetchs list of tasks. If success retrieves a TaskResponse
  */
 export class TasksService {
-    private http;
+  private http;
 
-    constructor(http: HttpService) {
-        this.http = http;
-      }
+  constructor(http: HttpService) {
+    this.http = http;
+  }
 
-    public listTasks(payload: { userId?: number } & Partial<PaginatedRequest> ) {
-        return this.http.get<TaskResponse>(`${config.baseUrl}todos`, { params: payload });
-    }
+  public listTasks(payload: { userId?: number } & Partial<PaginatedRequest>) {
+    return this.http.get<TaskResponse>(`${config.baseUrl}todos`, { params: payload });
+  }
 }

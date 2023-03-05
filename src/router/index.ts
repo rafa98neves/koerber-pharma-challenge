@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import { checkAuth } from './guards';
 
 const router = createRouter({
@@ -19,17 +19,17 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('../views/TodosView.vue')
-        }
-      ]
+          component: () => import('../views/TodosView.vue'),
+        },
+      ],
     },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/home',
     },
-  ]
-})
+  ],
+});
 
 router.beforeEach(checkAuth);
 
-export default router
+export default router;

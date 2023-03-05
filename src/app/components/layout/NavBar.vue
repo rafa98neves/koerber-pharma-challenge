@@ -8,12 +8,11 @@
 import { computed } from 'vue';
 import { useAuthStore } from '@/app/store/authStore';
 
-
 const authStore = useAuthStore();
 
-const user = computed(() => authStore.loggedInUser!)
+const user = computed(() => authStore.loggedInUser!);
 
-function logout(){
+function logout() {
   authStore.logout();
 }
 </script>
@@ -22,17 +21,16 @@ function logout(){
   <div class="navbar" v-if="user">
     <div class="user-info">
       <img class="image" :src="user.image" />
-        <p> {{ user.firstName }} {{ user.lastName }} </p>
+      <p>{{ user.firstName }} {{ user.lastName }}</p>
     </div>
-    <div class="logout-wrapper" >
+    <div class="logout-wrapper">
       <a @click="logout"> Logout </a>
     </div>
-
   </div>
 </template>
 
 <style lang="scss" scoped>
-.navbar{
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,24 +46,24 @@ function logout(){
   padding-left: 2rem;
   padding-right: 2rem;
 
-  .user-info{
+  .user-info {
     display: inline-flex;
     align-items: center;
-    p{
+    p {
       margin-left: 1rem;
     }
   }
 
-  .image{
+  .image {
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
     border: 1px solid var(--white-mute);
   }
 
-  .logout-wrapper{
+  .logout-wrapper {
     cursor: pointer;
-    a{
+    a {
       margin-left: auto;
     }
   }
