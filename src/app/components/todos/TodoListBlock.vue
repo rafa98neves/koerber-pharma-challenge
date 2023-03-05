@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/app/store/tasksStore';
 import { useAuthStore } from '@/app/store/authStore';
-import Todo from './Todo.vue';
+import TaskTodo from './TaskTodo.vue';
 import InfiniteScroll from '@/app/components/ui/InfiniteScroll.vue';
 import { computed } from '@vue/reactivity';
 import CompleteCounter from '../ui/CompleteCounter.vue';
@@ -38,7 +38,7 @@ async function loadTodos(query: any){
 <template>
       <InfiniteScroll @fetch="loadTodos($event)" :total="state.total">
         <template #header>
-          <div class="row centered">
+          <div class="centered">
             <div class="col">
               <h1 class="mb-3"> Todos List </h1>
             </div>
@@ -51,7 +51,7 @@ async function loadTodos(query: any){
         <div class="todo-content">
           <div class="row pt-3 mx-0" v-if="state.tasks.length > 0">
             <div class="col col-xl-6 col-md-12 mb-3" v-for="todo in state.tasks" :key="todo.id">
-              <Todo :task="todo" />
+              <TaskTodo :task="todo" />
             </div>
           </div>
           <div class="" v-else-if="state.isWaiting">
@@ -75,7 +75,7 @@ async function loadTodos(query: any){
   }
 }
 
-.row{
+.row {
   align-items: center;
   .counter{
     margin-right: 2rem;

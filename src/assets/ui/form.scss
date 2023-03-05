@@ -1,10 +1,19 @@
 @import './input.scss';
 
-.form-field {
-    margin-bottom: 2rem;
+.form-field-wrapper {
+    margin-bottom: 1rem;
 
-    .form-label {
-        display: block;
-        margin-bottom: 0.3rem;
+    .form-field{
+        position: relative;
+        padding-bottom: 1.5rem;
+        .form-label {
+            display: block;
+            padding-bottom: 0.3rem;
+        }
+    
+        .is-invalid{
+            border-color: var(--color-danger);
+            animation: horizontal-shaking 0.15s;
+        }
     }
 }

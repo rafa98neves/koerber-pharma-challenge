@@ -1,13 +1,18 @@
 input {
     width: 100%;
-    color: var(--vt-c-white-soft);
+    color: var(--grey);
     background-color: transparent;
     padding: 0.6rem 0.5rem;
-    border: 1px solid var(--vt-c-white-mute);
+    border: 1px solid var(--indigo);
     border-radius: 4px;
+    font-size: $font-size-sm;
 
-    &:focus{
-        border: 1px solid var(--vt-c-white-soft);
-        outline: none;
+    &::placeholder{
+        color: var(--grey);
+    }
+
+    &:focus,
+    &:active{
+        outline: 1px solid var(--indigo);
     }
 }

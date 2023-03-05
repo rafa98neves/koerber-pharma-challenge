@@ -3,23 +3,19 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['eslint:recommended',
-  "plugin:@typescript-eslint/eslint-recommended",
-  "plugin:@typescript-eslint/recommended",
-  "prettier/@typescript-eslint",
-  'plugin:vue/vue3-recommended'],
+  extends: [
+    "plugin:vue/strongly-recommended",
+    "eslint:recommended",
+    "@vue/typescript/recommended",
+    "prettier",
+  ],
+  plugins: ["@typescript-eslint", "prettier"],
   rules: {
-    'no-unused-vars': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { "ignoreRestSiblings": true }],
     'spaced-comment': [
       'warn',
       'always'
-    ],
-    'vue/valid-v-slot': [
-      'error',
-      {
-        allowModifiers: true,
-      },
     ],
     'vue/component-name-in-template-casing': [
       'error',

@@ -28,7 +28,7 @@ defineProps<{
     margin-left: 1rem;
     width: 5rem;
     height: 5rem;
-    border: 1px solid var(--vt-c-white-mute);
+    border: 1px solid #f2f2f2;
     border-radius: 50%;
   }
 }
