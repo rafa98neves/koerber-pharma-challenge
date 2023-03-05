@@ -37,11 +37,11 @@ export const useTaskStore = defineStore('taskStore', {
      * Gets todos in cache if any, otherwise if no todos are cached or forcing is set to true
      * todos will be fetched from API
      */
-    async loadTodos(payload: { userId?: number } & Partial<PaginatedResponse>, force = false) {
+    async loadTodosOfUser(userId: number, payload: Partial<PaginatedResponse>, force = false) {
       if (!force && this.todos && this.todos.length > 0 && this.todos.length >= (payload.limit ?? 0)) {
         return this.currentTasks!;
       }
-      const res = await services.tasks.listTasks(payload);
+      const res = await services.tasks.listTasksOfUser(userId, payload);
       res.todos = res.todos.map((todo) => ({ ...todo, timer: 0, started: false }));
       this.currentTasks = res;
       return res;
@@ -64,6 +64,18 @@ export const useTaskStore = defineStore('taskStore', {
       const index = this.currentTasks!.todos!.findIndex((task) => task.id === id);
       if (index >= 0) {
         this.currentTasks!.todos[index] = { ...update };
+      }
+    },
+
+    /**
+     * Saves task and marks it as complete
+     */
+    async markAsComplete(id: number) {
+      const index = this.currentTasks!.todos!.findIndex((task) => task.id === id);
+      if (index >= 0) {
+        this.currentTasks!.todos[index].completed = true;
+        const { timer, started, ...task } = this.currentTasks!.todos[index];
+        return await services.tasks.updateTodo(task.id, { completed: task.completed });
       }
     },
 
